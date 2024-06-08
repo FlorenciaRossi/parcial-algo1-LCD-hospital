@@ -1,3 +1,9 @@
+package hospital;
+
+import hospital.estudios.Estudio;
+import hospital.estudios.EstudioLaboratorio;
+import hospital.estudios.EstudioRX;
+
 public class App {
     public static void main(String[] args)  {
         Hospital hospital = new Hospital("Pura Salud");

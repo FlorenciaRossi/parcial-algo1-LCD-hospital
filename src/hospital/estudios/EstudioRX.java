@@ -1,12 +1,11 @@
+package hospital.estudios;
 
 public class EstudioRX extends Estudio{
     private String zona;
 
     public EstudioRX(String zona){
-        super();
+        super("RX", "Estudio de imagen RX de "+ zona);
         this.zona = zona;
-        setNombre("RX");
-        setDetalle("Estudio de imagen RX de "+ zona);
     }
 
 }

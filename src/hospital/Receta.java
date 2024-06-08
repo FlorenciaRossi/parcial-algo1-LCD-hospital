@@ -1,3 +1,6 @@
+package hospital;
+
+import hospital.estudios.Estudio;
 
 public class Receta {
     private Profesional profesional;
@@ -16,13 +19,19 @@ public class Receta {
         return estado;
     }
 
-   
-
     public void procesar() {
         for(Estudio estudio: estudios){
             estudio.relizarse(paciente, profesional);
         }
         estado = Estado.REALIZADO;
+    }
+    
+    public Paciente getPaciente() {
+        return paciente;
+    }
+
+    public Estudio[] getEstudios() {
+        return estudios;
     }
 
     @Override
@@ -45,15 +54,4 @@ public class Receta {
     // - RX: Estudio de imagen RX de columna (REALIZADO)
     // - RX: Estudio de imagen RX de torax (REALIZADO)
 
-    public Paciente getPaciente() {
-        return paciente;
-    }
-
-    public Estudio[] getEstudios() {
-        return estudios;
-    }
-}
-
-enum Estado{
-    PENDIENTE, REALIZADO
 }

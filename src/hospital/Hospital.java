@@ -1,5 +1,9 @@
+package hospital;
 import java.util.ArrayList;
 import java.util.List;
+
+import hospital.estudios.Estudio;
+import hospital.excepciones.SystemException;
 
 public class Hospital {
     private String nombre;
@@ -15,23 +19,30 @@ public class Hospital {
     }
 
     public Profesional registrarProfesional(String string, int i) {
-        if( profesionalRegistrado(i)){
-            throw new UnsupportedOperationException("el profesional ya se encuentra registrado");
+        Profesional nuevo = new Profesional(string, i);
+        if( profesionalRegistrado(nuevo)){
+            throw new SystemException("El profesional ya se encuentra registrado.");
         }
-        return new Profesional(string, i);
+        return nuevo;
     }
 
 
     public Paciente registrarPaciente(String string, int i) {
-        if( pacienteRegistrado(i)){
-            throw new UnsupportedOperationException("el profesional ya se encuentra registrado");
-        }
         Paciente nuevo =new Paciente(string, i);
+        if( pacienteRegistrado(nuevo)){
+            throw new SystemException("El paciente ya se encuentra registrado.");
+        }
         pacientes.add(nuevo);
         return nuevo; 
     }
 
     public Receta cargarReceta(Profesional profesional, Paciente paciente, Estudio[] estudios) {
+        if(!profesionalRegistrado(profesional)){
+            throw new SystemException("El profesional no está registrado.");
+        }
+        if(!pacienteRegistrado(paciente)){
+            throw new SystemException("El paciente no está registrado.");
+        }
         Receta r = new Receta(profesional, paciente, estudios);
         recetas.add(r);
         return r;
@@ -39,25 +50,25 @@ public class Hospital {
 
     public void procesar(Receta receta) {
         if(receta.getEstado() == Estado.REALIZADO){
-            throw new UnsupportedOperationException("la receta ya fue procesada");
+            throw new SystemException("La receta ya fue procesada.");
         }   
         receta.procesar(); 
     }
 
-    private boolean profesionalRegistrado(int i) {
+    private boolean profesionalRegistrado(Profesional p) {
         Boolean registrado = false;
         for (Profesional profesional : profesionales){
-            if ( profesional.getMatricula() == i ){
+            if ( profesional.equals(p)){
                 registrado = true;
             }
         }
         return registrado;
     }
 
-    private boolean pacienteRegistrado(int i) {
+    private boolean pacienteRegistrado(Paciente p) {
         Boolean registrado = false;
         for (Paciente paicente : pacientes){
-            if ( paicente.getDni() == i ){
+            if ( paicente.equals(p) ){
                 registrado = true;
             }
         }
@@ -106,7 +117,7 @@ public class Hospital {
     private List<Receta> recetasDe(Paciente paciente) {
         List<Receta> r = new ArrayList<>();
         for ( Receta receta: recetas){
-            if (receta.getPaciente().getDni() == paciente.getDni()){
+            if (receta.getPaciente().equals(paciente)){
                 r.add(receta);
             }
         }
